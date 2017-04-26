@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,12 +27,27 @@ public class MainActivity extends AppCompatActivity {
                 //track the user when they sign in or out using the firebaseAuth
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user == null) {
-                    // User is signed out
-                    /*Intent signInIntent = new Intent(getBaseContext(), LoginActivity.class);
+                    Log.d("CSS3334","onAuthStateChanged - User NOT is signed in");
+                    Intent signInIntent = new Intent(getBaseContext(), SecondActivity.class);
                     startActivity(signInIntent);
-                    */
+
                 }
             }
         };
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (mAuthListener != null) {
+            mAuth.removeAuthStateListener(mAuthListener);
+        }
     }
 }
