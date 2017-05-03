@@ -18,11 +18,10 @@ import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
 
-    EditText etAddNote;
-    TextView tvNotes;
-    ListView lvNotes;
-    Button buttonAddNote;
-    Button buttonDeleteNote;
+    EditText etFirstName;
+    EditText etLastName;
+    Button buttonSubmit;
+    Button buttonSignOut;
 
 
     private FirebaseAuth mAuth;
@@ -33,11 +32,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tvNotes = (TextView) findViewById(R.id.textViewNotes);
-        lvNotes = (ListView) findViewById(R.id.listViewNotes);
+        etFirstName = (EditText) findViewById(R.id.editTextFirstName);
+        etLastName = (EditText) findViewById(R.id.editTextLastName);
 
         userAuthentication();
-        setupAddButton();
+        buttonSubmit();
+        buttonSignOut();
 
     }
 
@@ -60,14 +60,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void setupAddButton() {
-        // Set up the button to add a new fish using a seperate activity
-        buttonAddNote = (Button) findViewById(R.id.buttonAdd);
-        buttonAddNote.setOnClickListener(new View.OnClickListener() {
+    private void buttonSubmit() {
+        buttonSubmit = (Button) findViewById(R.id.buttonSubmit);
+        buttonSubmit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                // Start up the add fish activity with an intent
-                tvNotes.setText(etAddNote.getText().toString());
 
+            }
+        });
+    }
+
+    private void buttonSignOut() {
+        buttonSignOut = (Button) findViewById(R.id.buttonSignOut);
+        buttonSignOut.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                signOut();
             }
         });
     }
@@ -84,5 +90,11 @@ public class MainActivity extends AppCompatActivity {
         if (mAuthListener != null) {
             mAuth.removeAuthStateListener(mAuthListener);
         }
+    }
+
+    //signOut() method that signs out the user.
+    private void signOut() {
+        mAuth.signOut();
+
     }
 }
